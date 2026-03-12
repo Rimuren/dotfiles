@@ -219,7 +219,7 @@ stow -D wezterm
 * Install applications before running stow
 * Some configs assume Nerd Fonts installed
 * Wayland/X11 behavior may vary per distro
-* Tested mainly on Arch Linux
+* Tested mainly on Arch Linux(Endeavouros)
 
 ---
 
