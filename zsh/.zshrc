@@ -22,5 +22,5 @@ load_zsh_dir() {
 load_zsh_dir "$ZSH_CONFIG"
 
 # load sub modules
-load_zsh_dir "$ZSH_CONFIG/helpers"
-load_zsh_dir "$ZSH_CONFIG/ui"
+[[ -d "$ZSH_CONFIG/helpers" ]] && load_zsh_dir "$ZSH_CONFIG/helpers"
+[[ -d "$ZSH_CONFIG/ui" ]] && load_zsh_dir "$ZSH_CONFIG/ui"
