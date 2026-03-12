@@ -3,14 +3,24 @@
 # .zshrc
 # ======================
 
-ZSH_CONFIG="$HOME/.config/zsh"
-
 [[ -n "$ZSH_CONFIG_LOADED" ]] && return
 export ZSH_CONFIG_LOADED=1
 
-config_files=("$ZSH_CONFIG"/[0-9][0-9]-*.zsh(N))
+ZSH_CONFIG="$HOME/.config/zsh"
 
-for file in "${config_files[@]}"; do
-  source "$file"
-done
+# universal loader
+load_zsh_dir() {
+  local dir="$1"
+  local files=("$dir"/[0-9][0-9]-*.zsh(N))
 
+  for file in "${files[@]}"; do
+    [[ -r "$file" ]] && source "$file"
+  done
+}
+
+# load main config
+load_zsh_dir "$ZSH_CONFIG"
+
+# load sub modules
+load_zsh_dir "$ZSH_CONFIG/helpers"
+load_zsh_dir "$ZSH_CONFIG/ui"
