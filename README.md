@@ -28,6 +28,7 @@ dotfiles/
 ├── mpc/             → ~/.config/mpc
 ├── mpd-mpris/       → systemd user service config
 ├── rmpc/            → ~/.config/rmpc
+├── cava/            → ~/.config/cava
 ├── firefox/         → Firefox userChrome customization
 └── README.md
 ```
