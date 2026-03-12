@@ -1,0 +1,12 @@
+.titlebar-min,
+.titlebar-max,
+.titlebar-restore,
+.titlebar-close {
+    display: none !important;
+}
+/* Remove animations */
+* {
+    animation: none !important;
+    transition: none !important;
+}
+

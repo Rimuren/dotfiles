@@ -1,0 +1,735 @@
+
+/*═══════════════════════════════════════════════════════════════════════════
+  
+		┌─┐┬┌┬┐┌─┐┬  ┌─┐
+		└─┐││││├─┘│  ├┤ 
+		└─┘┴┴ ┴┴  ┴─┘└─┘
+		┌─┐┌─┐─┐ ┬      
+		├┤ │ │┌┴┬┘      
+		└  └─┘┴ └─
+		(Modified)
+	
+═══════════════════════════════════════════════════════════════════════════*/
+
+/*═══════════════════════════════════════════════════════════════════════════
+	ROOT VARIABLES & GLOBAL SETTINGS
+═══════════════════════════════════════════════════════════════════════════*/
+
+:root {
+  --sfwindow: #19171a;
+  --sfsecondary: #201e21;
+
+  --findbar-width: calc(var(--findbar-min-width-expanded) + (100vw - 2 * var(--findbar-right) - var(--findbar-min-width-expanded)) * 0.12);
+  --findbar-top: 12px;
+  --findbar-right: max(2vw, 30px);
+  --findbar-transition-duration: 100ms;
+  --findbar-transition-distance: 20px;
+
+  /* Show/hide find bar options */
+  --show-highlight-all: 1;
+  --show-match-case: 1;
+  --show-match-diacritics: 1;
+  --show-whole-words: 1;
+
+  /* Find bar options position */
+  --highlight-all-position: 0;
+  --match-case-position: 1;
+  --match-diacritics-position: 2;
+  --whole-words-position: 3;
+
+  /* Borders & Focus */
+  --arrowpanel-border-color: transparent !important;
+  --toolbar-field-focus-border-color: transparent !important;
+  --show-reload: block;
+  
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	WINDOW BUTTONS & TITLEBAR
+═══════════════════════════════════════════════════════════════════════════*/
+
+.titlebar-min,
+.titlebar-max,
+.titlebar-restore,
+.titlebar-spacer,
+.titlebar-close {
+  display: none !important;
+}
+
+/*═══════════════════════════════════════════════════════════════════════════
+	TAB SETTINGS
+═══════════════════════════════════════════════════════════════════════════*/
+
+/*── Active / Multiselected Tabs ───────────────────────────────*/
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[multiselected='true'],
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[selected='true'] {
+  background-image: none !important;
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
+/*── Tab Layout Adjustments ───────────────────────────────────*/
+#tabbrowser-tabs {
+  border-inline-start: none !important;
+  padding-inline-start: 0px !important;
+  margin-inline-start: 0px !important;
+}
+
+#pinned-tabs-container {
+  margin-inline-end: 0px !important;
+}
+
+/*── Tab Icon ─────────────────────────────────────────────────*/
+.tab-icon-image {
+  width: 12px !important;
+  height: 12px !important;
+  opacity: 0.6 !important;
+}
+
+/*── Tab Borders & Radius ─────────────────────────────────────*/
+:root {
+  --toolbarbutton-border-radius: 0 !important;
+  --tab-border-radius: 0 !important;
+  --tab-block-margin: 0 !important;
+}
+
+.tab-background {
+  border-right: 0px solid rgba(0, 0, 0, 0) !important;
+  margin-left: -4px !important;
+}
+
+.tabbrowser-tab:is([visuallyselected='true'], [multiselected])
+  > .tab-stack
+  > .tab-background {
+  box-shadow: none !important;
+}
+
+.tabbrowser-tab[last-visible-tab='true'] {
+  padding-inline-end: 0 !important;
+}
+
+/*── Close Button ─────────────────────────────────────────────*/
+.tabbrowser-tab .tab-close-button {
+  order: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/*── New Tab Button ───────────────────────────────────────────*/
+#tabs-newtab-button {
+  padding-left: 0 !important;
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	WINDOW & TOOLBOX COLORS
+═══════════════════════════════════════════════════════════════════════════*/
+
+#navigator-toolbox {
+  background-color: var(--sfwindow) !important;
+  border: none !important;
+}
+
+:root {
+  --toolbar-bgcolor: var(--sfsecondary) !important;
+  --tabs-border-color: var(--sfsecondary) !important;
+  --lwt-sidebar-background-color: var(--sfwindow) !important;
+  --lwt-toolbar-field-focus: var(--sfsecondary) !important;
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	URL BAR
+═══════════════════════════════════════════════════════════════════════════*/
+
+#urlbar-input-container {
+  background-color: var(--sfsecondary) !important;
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+}
+
+#urlbar-container {
+  margin-left: 0 !important;
+}
+
+#urlbar[focused='true'] > #urlbar-background {
+  box-shadow: none !important;
+}
+
+.urlbarView-url {
+  color: #dedede !important;
+}
+
+/*─────────────────────────────*/
+/* Hide URL suggestion panel   */
+/*─────────────────────────────*/
+/* .urlbarView { */
+/*   display: none !important; */
+/* } */
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	TOOLBAR & NAVIGATION BUTTONS
+═══════════════════════════════════════════════════════════════════════════*/
+
+#nav-bar:not([tabs-hidden='true']) {
+  box-shadow: none;
+}
+
+/*── Hide unused toolbar items ────────────────────────────────*/
+#tracking-protection-icon-container,
+#urlbar-zoom-button,
+#star-button-box,
+#pageActionButton,
+#pageActionSeparator,
+#tabs-newtab-button {
+  display: none !important;
+}
+
+/*── Forward & Back Buttons ───────────────────────────────────*/
+#forward-button, #back-button {
+  width: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+  box-sizing: content-box !important;
+  overflow: hidden !important;
+  justify-content: flex-start !important;
+  transition: width 100ms ease-out, padding 100ms ease-out !important;
+}
+#forward-button[disabled], #back-button[disabled] {
+  width: 0px !important;
+  padding: 0px !important;
+}
+
+/* Let the toolbar keep its natural order */
+#nav-bar > * {
+  order: initial !important;
+}
+
+/* Move reload button right before urlbar-container only */
+#stop-reload-button {
+  order: calc(var(--urlbar-container-order) - 1) !important;
+}
+
+/*── Hidden Reload Button (collapsed) ────────────────────────*/
+#stop-reload-button {
+  width: 0px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-sizing: content-box !important;
+  transition: width 110ms ease, padding 110ms ease;
+  transition-delay: 400ms;
+}
+
+/*── Show when toolbar hovered or button hovered ─────────────*/
+#nav-bar:has(#urlbar-container:hover) #stop-reload-button,
+#stop-reload-button:hover {
+  width: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+  padding: 0 var(--toolbarbutton-outer-padding) !important;
+}
+
+/*── Spacers & Margins ────────────────────────────────────────*/
+.toolbaritem-combined-buttons {
+  margin-inline: 0px !important;
+}
+
+#tabs-newtab-button {
+  list-style-image: url("add.svg") !important;
+  opacity: 0.7;
+}
+
+#back-button {
+  list-style-image: url("left-arrow.svg") !important;
+}
+
+#forward-button {
+  list-style-image: url("right-arrow.svg") !important;
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	EXTENSIONS & HAMBURGER MENU
+═══════════════════════════════════════════════════════════════════════════*/
+
+/*── Hamburger Menu ───────────────────────────────────────────*/
+#PanelUI-button {
+  order: 9999 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+#PanelUI-menu-button {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  min-width: auto !important;
+}
+
+/*── Dynamic Extensions Button ────────────────────────────────*/
+#unified-extensions-button {
+  order: 9998 !important;
+  width: 0px !important;
+  padding: 0px !important;
+  box-sizing: content-box !important;
+  justify-content: flex-start !important;
+  overflow: hidden !important;
+  transition: width 100ms ease-out, padding 100ms ease-out !important;
+}
+
+/*── Show extensions on hover ─────────────────────────────────*/
+#nav-bar:has(#PanelUI-menu-button:not([open]):hover) #unified-extensions-button,
+#unified-extensions-button:is(:hover, [open], :has(.toolbarbutton-icon[showing])) {
+  width: calc(2 * var(--toolbarbutton-inner-padding) + 16px) !important;
+  padding: 0px var(--toolbarbutton-outer-padding) !important;
+  transition-delay: 450ms !important;
+}
+
+/*── Hide Overflow Menu ───────────────────────────────────────*/
+#nav-bar-overflow-button,
+#nav-bar-customization-target > toolbarspring {
+  display: none !important;
+  visibility: collapse !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/*── Optional: Hide Extension Panels ───────────────────────────*/
+/* #unified-extensions-button,
+   #unified-extensions-area,
+   #unified-extensions-view,
+   #unified-extensions-panel,
+   #unified-extensions-anchor,
+   #unified-extensions-view > toolbarbutton,
+   #unified-extensions-view > toolbaritem {
+     display: none !important;
+   } */
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	SIDEBAR
+═══════════════════════════════════════════════════════════════════════════*/
+
+#sidebar-box,
+.sidebar-placesTree {
+  background-color: var(--sfwindow) !important;
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	CONTEXT MENU CUSTOMIZATION
+═══════════════════════════════════════════════════════════════════════════*/
+
+#context-pocket,
+#context-sendpagetodevice,
+#context-sendlinktodevice,
+#context-savelinktopocket,
+#context-print-selection,
+#context_bookmarkTab,
+#context_moveTabOptions,
+#context_sendTabToDevice,
+#context_reopenInContainer,
+#context_selectAllTabs,
+#context_closeTabOptions {
+  display: none !important;
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	BOOKMARKS BAR
+═══════════════════════════════════════════════════════════════════════════*/
+
+.bookmark-item .toolbarbutton-icon {
+  display: none;
+}
+.toolbarbutton.bookmark-item:not(.subviewbutton) {
+  min-width: 1.6em;
+}
+
+
+/*═══════════════════════════════════════════════════════════════════════════
+	MISC / OTHER SETTINGS
+═══════════════════════════════════════════════════════════════════════════*/
+
+#nav-bar {
+  background: none !important;
+}
+
+/*═══════════════════════════════════════════════════════════════════════════
+	VERTICAL TABS - FLAT STYLE (NO ROUNDED CORNERS)
+═══════════════════════════════════════════════════════════════════════════*/
+
+/*── Hapus border-radius pada semua elemen tab ───────────────────────────*/
+#tabbrowser-tabs,
+.tabbrowser-tab,
+.tab-stack,
+.tab-background,
+.tab-content {
+  border-radius: 0 !important;
+  border-inline-start: none !important;
+  padding-inline-start: 0px !important;
+  margin-inline-start: 0px !important;
+}
+/* remove gap after pinned tabs */
+#pinned-tabs-container {
+  margin-inline-end: 0px !important;
+}
+
+/* normalize tab group padding */
+.tab-group-label-container {
+  margin-inline-start: 0px !important;
+  padding-inline: var(--tab-overflow-clip-margin) !important;
+  box-sizing: content-box !important;
+}
+.tab-group-overflow-count-container {
+  margin-inline-end: 0px !important;
+  padding-inline-end: var(--tab-overflow-clip-margin) !important;
+}
+/* hide tab group label outline */
+.tab-group-label {
+  outline: none !important;
+}
+/* hide tab shadow & outline */
+.tabbrowser-tab .tab-background {
+  box-shadow: none !important;
+  outline: none !important;
+}
+/* hide tab close button */
+.tabbrowser-tab:not([pinned]) .tab-close-button {
+  display: none !important;
+}
+.tabbrowser-tab:not([pinned]):hover .tab-close-button {
+  display: inline-block !important;
+}
+
+/* Disable drag-resize by removing the splitter */
+#sidebar-launcher-splitter,
+.sidebar-splitter {
+  display: none !important;
+}
+
+/*═══════════════════════════════════════════════════════════════════════════
+	VERTICAL TABS - ALIGN ICONS FLUSH LEFT
+═══════════════════════════════════════════════════════════════════════════*/
+
+/* Kurangi padding kiri di area konten tab */
+.tabbrowser-tab .tab-content {
+  padding-left: 4px !important;}
+
+/* Hilangkan margin default di stack ikon */
+.tab-icon-stack {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Pastikan ikon benar-benar mepet kiri */
+.tab-icon-image {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 2px !important;
+  padding-right: 2px !important;
+}
+
+/* Hapus ruang kiri pada label (judul tab) biar ikut rata kiri */
+.tab-label-container {
+  margin-left: 2px !important; 
+  padding-left: 0 !important;
+}
+
+/* Opsional: kecilkan gap antara ikon & teks */
+.tab-icon-stack + .tab-label-container {
+  margin-left: 2px !important;
+}
+
+/*═══════════════════════════════════════════════════════════════════════════
+	FULLSCREEN BEHAVIOR - PREVENT AUTO-HIDE
+═══════════════════════════════════════════════════════════════════════════*/
+
+/*── Prevent toolbar hiding in fullscreen ─────────────────────*/
+#navigator-toolbox[fullscreenShouldAnimate] {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+  z-index: 2 !important;
+}
+
+:root[sizemode="fullscreen"] #navigator-toolbox {
+  display: flex !important;
+}
+
+/*═══════════════════════════════════════════════════════════════════════════
+	OVERVIEW (CTRL+TAB) THEME
+═══════════════════════════════════════════════════════════════════════════*/
+.ctrlTab-favicon,
+.ctrlTab-preview-favicon,
+.ctrlTab-preview-inner > image {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 1px !important;
+  box-shadow: none !important;
+  padding: 1px !important;
+}
+
+.ctrlTab-favicon[src=""],
+.ctrlTab-preview-favicon[src=""] {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Panel utama Ctrl+Tab */
+
+/* #ctrlTab-panel { */
+/*   background-color: rgba(10, 10, 10, 0.8) !important; */
+/*   backdrop-filter: blur(18px) saturate(160%) !important; */
+/*   border-radius: 15px !important; */
+/*   border: 1px solid rgba(255, 255, 255, 0.07) !important; */
+/*   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.7) !important; */
+/*   padding: 14px 18px !important; */
+/* } */
+/*  */
+/* .ctrlTab-preview, #ctrlTab-preview { */
+/*   border-radius: 10px !important; */
+/*   overflow: hidden !important; */
+/*   background-color: transparent !important; */
+/*   box-shadow: none !important; */
+/*   transition: transform 0.2s ease, opacity 0.3s ease !important; */
+/* } */
+/*  */
+/* .ctrlTab-preview-inner { */
+/*   background-color: rgba(255, 255, 255, 0.05) !important; */
+/*   border: 1px solid rgba(255, 255, 255, 0.12) !important; */
+/*   border-radius: 10px !important; */
+/*   overflow: hidden !important; */
+/*   transition: all 0.25s ease !important; */
+/*   box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0); */
+/* } */
+/*  */
+/* .ctrlTab-preview[selected="true"] .ctrlTab-preview-inner, */
+/* .ctrlTab-preview:focus .ctrlTab-preview-inner, */
+/* .ctrlTab-selected .ctrlTab-preview-inner, */
+/* .ctrlTab-preview[visuallyselected="true"] .ctrlTab-preview-inner { */
+/*   background-color: rgba(255, 255, 255, 0.22) !important; */
+/*   border: 1px solid rgba(255, 255, 255, 0.35) !important; */
+/*   box-shadow: */
+/*     0 0 12px rgba(255, 255, 255, 0.4), */
+/*     inset 0 0 0 1px rgba(255, 255, 255, 0.25) !important; */
+/*   opacity: 1 !important; */
+/*   filter: none !important; */
+/*   transform: scale(1.06); */
+/*   z-index: 2 !important; */
+/* } */
+/*  */
+/* .ctrlTab-preview:not([selected="true"]):not(:focus):not(.ctrlTab-selected) .ctrlTab-preview-inner { */
+/*   opacity: 0.35 !important; */
+/*   filter: grayscale(35%) brightness(0.7); */
+/*   transform: scale(1); */
+/*   box-shadow: none !important; */
+/* } */
+/*  */
+/* .ctrlTab-preview-title { */
+/*   color: #ffffff !important; */
+/*   text-shadow: 0 0 4px rgba(0, 0, 0, 0.9) !important; */
+/*   font-weight: 500 !important; */
+/* } */
+/*  */
+/* .ctrlTab-preview:hover .ctrlTab-preview-inner { */
+/*   transform: scale(1.05); */
+/*   opacity: 1 !important; */
+/*   filter: none !important; */
+/*   box-shadow: */
+/*     0 0 10px rgba(255, 255, 255, 0.25), */
+/*     inset 0 0 0 1px rgba(255, 255, 255, 0.15) !important; */
+/* } */
+/*  */
+/* #ctrlTab-showAll { */
+/*   display: none !important; */
+/* } */
+
+
+/* ,------.,--.,--.  ,--.,------.         ,-----.    ,---.  ,------.  
+ * |  .---'|  ||  ,'.|  ||  .-.  \ ,-----.|  |) /_  /  O  \ |  .--. ' 
+ * |  `--, |  ||  |' '  ||  |  \  :'-----'|  .-.  \|  .-.  ||  '--'.' 
+ * |  |`   |  ||  | `   ||  '--'  /       |  '--' /|  | |  ||  |\  \  
+ * `--'    `--'`--'  `--'`-------'        `------' `--' `--'`--' '--' 
+ *  __________________________________________________________________________________
+ * |  ————————————————————————————————————————————————————————————   ———— ————   ———  |
+ * | | Find in page                                               | | /\ | \/ | | X | |
+ * |  ————————————————————————————————————————————————————————————   ———— ————   ———  |
+ *  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+ *  8                        {textboxWidth}                        8  30   30  8  24 8                                  = 116px + {textboxWidth}
+ *  ______________________________________________________________________________________________________________
+ * |  ————————————————————————————————————————————————————————————   ———— ————   ————   ————   ————   ————   ———  |
+ * | | Find in page                                               | | /\ | \/ | | HL | | Aa | | a̲b̲ | | àë | | X | |
+ * |  ————————————————————————————————————————————————————————————   ———— ————   ————   ————   ————   ————   ———  |
+ *  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+ *  8                        {textboxWidth}                        8  30   30  8       {optionsWidth}         24 8      = 116px + {optionsWidth} + {textboxWidth}
+ */
+
+:root {
+  --show-margin: round(up, calc((var(--show-highlight-all) + var(--show-match-case) + var(--show-match-diacritics) + var(--show-whole-words)) / 4));
+  --options-width: calc(34px*var(--show-highlight-all) + 34px*var(--show-match-case) + 34px*var(--show-match-diacritics) + 34px*var(--show-whole-words) + 4px*var(--show-margin));
+
+  --findbar-min-width: calc(450px - 2 * var(--findbar-right)); /* minimum browser width = 450px */
+  --findbar-min-width-expanded: calc(var(--findbar-min-width) + var(--options-width));
+  --findbar-max-width: calc(100vw - 2 * var(--findbar-right));
+  --findbar-width-use: clamp(var(--findbar-min-width-expanded), var(--findbar-width), var(--findbar-max-width));
+
+  --textbox-min-width: calc(var(--findbar-min-width) - 116px);
+  --textbox-width: calc(var(--findbar-width-use) - 116px - var(--options-width));
+}
+
+/* floating find bar */
+findbar {
+  position: absolute !important;
+  top: var(--findbar-top) !important;
+  left: var(--findbar-right) !important;
+  right: var(--findbar-right) !important;
+  width: var(--findbar-width-use) !important;
+  max-width: var(--findbar-max-width) !important;
+  margin-left: auto !important;
+  border: none !important;
+  border-radius: var(--tab-border-radius) !important;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* find bar transiton */
+findbar {
+  height: 40px !important;
+  overflow: hidden !important;
+  transition-property: top, height, padding-block, visibility !important;
+  transition-duration: var(--findbar-transition-duration), var(--findbar-transition-duration), var(--findbar-transition-duration), 0s !important;
+  transition-timing-function: ease-in-out, ease-in-out, ease-in-out, linear !important;
+  transition-delay: 0s, 0s, 0s, 0s !important;
+}
+findbar[hidden] {
+  top: calc(var(--findbar-top) - var(--findbar-transition-distance)) !important;
+  height: 0px !important;
+  padding-block: 0px !important;
+  transition-delay: 0s, 0s, 0s, var(--findbar-transition-duration) !important;
+}
+findbar > * {
+  transition-duration: calc(var(--findbar-transition-duration) / 2) !important;
+  transition-delay: calc(var(--findbar-transition-duration) / 2) !important;
+}
+findbar[hidden] > * {
+  transition-delay: 0s !important;
+}
+
+/* format textbox */
+.findbar-textbox {
+  width: var(--textbox-width) !important;
+  min-width: var(--textbox-min-width) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.findbar-textbox:not([status]) {
+  background-color: transparent !important;
+}
+.findbar-textbox:not(:focus, [status]):hover {
+  background-color: var(--toolbar-field-background-color) !important;
+}
+
+/* position found matches label */
+label.found-matches {
+  position: absolute !important;
+  right: calc(100% - var(--textbox-width)) !important;
+  text-align: right !important;
+  margin: 0px !important;
+}
+
+/* hide other labels */
+.findbar-label:not(.found-matches) {
+  display: none !important;
+}
+
+/* simplify checkboxes */
+.findbar-container > checkbox {
+  display: grid !important;
+  justify-items: center !important;
+  margin-left: 0px !important;
+  overflow: hidden !important;
+}
+.findbar-container > checkbox *{
+  display: none !important;
+}
+
+/* format checkboxes */
+.findbar-highlight {
+  order: var(--highlight-all-position) !important;
+  width: calc(30px * var(--show-highlight-all)) !important;
+  height: calc(24px * var(--show-highlight-all)) !important;
+  margin-right: calc(4px * var(--show-highlight-all)) !important;
+}
+.findbar-case-sensitive {
+  order: var(--match-case-position) !important;
+  width: calc(30px * var(--show-match-case)) !important;
+  height: calc(24px * var(--show-match-case)) !important;
+  margin-right: calc(4px * var(--show-match-case)) !important;
+}
+.findbar-match-diacritics {
+  order: var(--match-diacritics-position) !important;
+  width: calc(30px * var(--show-match-diacritics)) !important;
+  height: calc(24px * var(--show-match-diacritics)) !important;
+  margin-right: calc(4px * var(--show-match-diacritics)) !important;
+}
+.findbar-entire-word {
+  order: var(--whole-words-position) !important;
+  width: calc(30px * var(--show-whole-words)) !important;
+  height: calc(24px * var(--show-whole-words)) !important;
+  margin-right: calc(4px * var(--show-whole-words)) !important;
+}
+.findbar-highlight::before {
+  content: "[ab]";
+  font-weight: bold;
+  color: var(--toolbar-color);
+}
+.findbar-case-sensitive::before {
+  content: "Aa";
+  font-weight: bold;
+  color: var(--toolbar-color);
+}
+.findbar-match-diacritics::before {
+  content: "àë";
+  font-weight: bold;
+  color: var(--toolbar-color);
+}
+.findbar-entire-word::before {
+  content: "ab";
+  font-weight: bold;
+  color: var(--toolbar-color);
+  grid-row: 1;
+  grid-column: 1;
+}
+.findbar-entire-word::after {
+  width: 1.3em;
+  height: 0.2em;
+  margin-bottom: -1em;
+  content: "";
+  border-left: 2px solid var(--toolbar-color);
+  border-right: 2px solid var(--toolbar-color);
+  border-bottom: 1px solid var(--toolbar-color);
+  grid-row: 1;
+  grid-column: 1;
+}
+
+/* checkbox hover/active background */
+.findbar-container > checkbox:not([checked]):hover {
+  background-color: var(--toolbarbutton-hover-background) !important;
+  border-radius: 4px !important;
+}
+.findbar-container > checkbox[checked] {
+  background-color: var(--toolbarbutton-active-background) !important;
+  border-radius: 4px !important;
+}
+
+/* format close button */
+.findbar-closebutton {
+  margin-left: calc(4px * var(--show-margin)) !important;
+}

@@ -1,0 +1,27 @@
+# ========================
+# MPD runtime files
+# ========================
+
+mpd/.config/mpd/state
+mpd/.config/mpd/database
+mpd/.config/mpd/sticker.sql
+mpd/.config/mpd/socket
+
+# playlists (private)
+mpd/.config/mpd/playlists/
+
+# ========================
+# Backups
+# ========================
+
+*.save
+*_backup
+wezterm_old/
+
+# ========================
+# System / cache
+# ========================
+
+*.log
+*.cache
+.DS_Store

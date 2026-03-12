@@ -1,0 +1,110 @@
+# ╭───────────────────────────────╮
+# │        STARSHIP CONFIG        │
+# ╰───────────────────────────────╯
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# ─── General Settings ───
+add_newline = true
+
+format = """
+ $shell$username[](bg:#91f2ff fg:#f9e0d9)$git_branch[](fg:#91f2ff bg:#EFAAC4)$cmd_duration[](fg:#EFAAC4 bg:#6B717E)$directory[](fg:#6B717E)
+ $character
+"""
+
+# ─── Right Prompt ───
+right_format = """
+[░▒▓](#a3aed2)$os[▓▒░](#a3aed2)
+"""
+	
+# ╭───────────────────────────────╮
+# │            MODULES            │
+# ╰───────────────────────────────╯
+
+# ─── OS Info ───
+[os]
+disabled = false
+style = "fg:#91f2ff"
+format = '[ $symbol ]($style)'
+
+[os.symbols]
+Windows = "Windows"
+Ubuntu = "Ubuntu"
+SUSE = "SUSE"
+Raspbian = "Raspbian"
+Mint = "Mint"
+Macos = "Macos"
+Manjaro = "Manjaro"
+Linux = "Linux"
+Gentoo = "Gentoo"
+Fedora = "Fedora"
+Alpine = "Alpine"
+Amazon = "Amazon"
+Android = "Android"
+Arch = "Arch"
+Artix = "Artix"
+EndeavourOS = "EndeavourOS"
+CentOS = "CentOS"
+Debian = "Debian"
+Redhat = "Redhat"
+RedHatEnterprise = "RedHatEnterprise"
+Pop = "Pop"
+
+# ─── Shell ───
+[shell]
+bash_indicator = " "
+fish_indicator = "󰈺 "
+zsh_indicator = " "
+powershell_indicator = "󰨊 "
+cmd_indicator = " "
+unknown_indicator = ""
+style = "fg:#000000 bg:#f9e0d9"
+format = "[ $indicator]($style)"
+disabled = false
+
+# ─── Username ───
+[username]
+show_always = false
+style_user = "fg:#000000 bg:#f9e0d9"
+style_root = "fg:#000000 bg:#f9e0d9"
+format = '[$user]($style)'
+
+
+# ─── Directory ───
+[directory]
+truncation_length = 4
+truncation_symbol = "# "
+style = "fg:#ffffff bg:#6B717E"
+format = '[ $path]($style)'
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+# ─── Git Info ───
+[git_branch]
+symbol = " "
+style = "fg:#000000 bg:#91f2ff"
+format = '[ $symbol$branch]($style)'
+
+# ─── Command Duration ───
+[cmd_duration]
+min_time = 1000
+show_milliseconds = false
+style = "fg:#000000 bg:#EFAAC4"
+format = '[ $duration]($style)'
+
+# ─── Fill ───
+[fill]
+symbol = " "
+
+# ─── Prompt Character ───
+[character]
+success_symbol = '[❯](bold fg:#91f2ff)'
+error_symbol = '[❯](bold fg:#EFAAC4)'
+vimcmd_symbol = '[❮](bold fg:#91f2ff)'
+vimcmd_replace_one_symbol = '[❮](bold fg:#EFAAC4)'
+vimcmd_visual_symbol = '[❮](bold fg:#f9e0d9)'
