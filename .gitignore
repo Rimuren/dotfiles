@@ -16,7 +16,9 @@ mpd/.config/mpd/playlists/
 
 *.save
 *_backup
+*_old
 wezterm_old/
+wezterm/.stow-local-ignore
 
 # ========================
 # System / cache
