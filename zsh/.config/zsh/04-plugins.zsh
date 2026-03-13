@@ -3,32 +3,32 @@
 # 04-plugins.zsh
 # ======================
 
-load_plugin() {
-  local file="$ZSH_PLUGINS/$1"
-  if [[ -r "$file" ]]; then
-    source "$file"
-  fi
-}
-
 autoload -Uz add-zsh-hook
 
-# ======================
-# Core Plugins
-# ======================
-
-load_plugin "z/z.sh"
-load_plugin "fzf-tab/fzf-tab.plugin.zsh"
-
-# ======================
-# Lazy Interactive Plugins
-# ======================
-
-lazy_interactive() {
-  load_plugin "zsh-autosuggestions/zsh-autosuggestions.zsh"
-  load_plugin "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-  load_plugin "zsh-autopair/zsh-autopair.plugin.zsh"
-
-  add-zsh-hook -d precmd lazy_interactive
+load_plugin() {
+  local file="$ZSH_PLUGINS/$1"
+  [[ -r "$file" ]] && source "$file"
 }
 
+_core_plugins=(
+  "z/z.sh"
+  "fzf-tab/fzf-tab.plugin.zsh"
+)
+
+_interactive_plugins=(
+  "zsh-autosuggestions/zsh-autosuggestions.zsh"
+  "fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+  "zsh-autopair/zsh-autopair.plugin.zsh"
+)
+
+for plugin in $_core_plugins; do
+  load_plugin "$plugin"
+done
+
+lazy_interactive() {
+  for plugin in $_interactive_plugins; do
+    load_plugin "$plugin"
+  done
+  add-zsh-hook -d precmd lazy_interactive
+}
 add-zsh-hook precmd lazy_interactive

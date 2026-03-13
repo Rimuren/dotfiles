@@ -3,6 +3,13 @@
 # /zsh/.config/zsh/ui/bluetooth.zsh
 # ======================
 
+_ensure_bluetooth() {
+  if ! systemctl is-active --quiet bluetooth; then
+    sudo systemctl start bluetooth
+    sleep 1  # Tunggu service up
+  fi
+}
+
 blue() {
   local state choice
 
@@ -13,19 +20,19 @@ blue() {
   fi
 
   choice=$(printf "Toggle (Current: %s)\nOn\nOff\nStatus\nScan Devices\nPaired Devices\n" "$state" | \
-    fzf --height=40% --reverse --border --prompt="Bluetooth > ")
+    fzfui --prompt="Bluetooth > ")
 
   case "$choice" in
     Toggle*)
       if systemctl is-active --quiet bluetooth; then
         sudo systemctl stop bluetooth && echo "Bluetooth OFF"
       else
-        sudo systemctl start bluetooth && echo "Bluetooth ON"
+        _ensure_bluetooth && echo "Bluetooth ON"
       fi
       ;;
 
     On)
-      sudo systemctl start bluetooth && echo "Bluetooth ON"
+      _ensure_bluetooth && echo "Bluetooth ON"
       ;;
 
     Off)
@@ -37,12 +44,12 @@ blue() {
       ;;
 
     "Scan Devices")
-      sudo systemctl start bluetooth >/dev/null 2>&1
+      _ensure_bluetooth
       echo "Scanning for devices (5 seconds)..."
       bluetoothctl --timeout 5 scan on >/dev/null 2>&1
 
       local device
-      device=$(bluetoothctl devices | fzf --height=40% --reverse --border --prompt="Connect > ")
+      device=$(bluetoothctl devices | fzfui --prompt="Connect > ")
 
       if [[ -n "$device" ]]; then
         local mac
@@ -51,33 +58,33 @@ blue() {
       fi
       ;;
 
-	"Paired Devices")
-	  sudo systemctl start bluetooth >/dev/null 2>&1
+    "Paired Devices")
+      _ensure_bluetooth
 
-	  local device
-	  device=$(bluetoothctl devices Paired | \
-	    fzf --height=40% --reverse --border --prompt="Paired > ")
+      local device
+      device=$(bluetoothctl devices Paired | \
+        fzfui --prompt="Paired > ")
 
-	  if [[ -n "$device" ]]; then
-	    local mac
-	    mac=$(echo "$device" | awk '{print $2}')
+      if [[ -n "$device" ]]; then
+        local mac
+        mac=$(echo "$device" | awk '{print $2}')
 
-	    local action
-	    action=$(printf "Connect\nDisconnect\nRemove\n" | \
-	      fzf --height=30% --reverse --border --prompt="Action > ")
+        local action
+        action=$(printf "Connect\nDisconnect\nRemove\n" | \
+          fzfui --prompt="Action > ")
 
-	    case "$action" in
-	      Connect)
-	        bluetoothctl connect "$mac"
-	        ;;
-	      Disconnect)
-	        bluetoothctl disconnect "$mac"
-	        ;;
-	      Remove)
-	        bluetoothctl remove "$mac"
-	        ;;
-	    esac
-	  fi
-	  ;;
+        case "$action" in
+          Connect)
+            bluetoothctl connect "$mac"
+            ;;
+          Disconnect)
+            bluetoothctl disconnect "$mac"
+            ;;
+          Remove)
+            bluetoothctl remove "$mac"
+            ;;
+        esac
+      fi
+      ;;
    esac
 }
