@@ -14,7 +14,6 @@ alias .....='cd ../../../..'
 alias c='clear'
 alias wez='killall wezterm-gui 2>/dev/null; wezterm'
 alias rmpcr='killall rmpc 2>/dev/null; systemctl --user restart mpd; rmpc'
-alias mpd='echo "Use systemctl --user start mpd"'
 
 alias mstatus='mpc status'
 alias mstop='mpc stop'

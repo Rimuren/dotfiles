@@ -1,13 +1,9 @@
 
 /*═══════════════════════════════════════════════════════════════════════════
   
-		┌─┐┬┌┬┐┌─┐┬  ┌─┐
-		└─┐││││├─┘│  ├┤ 
-		└─┘┴┴ ┴┴  ┴─┘└─┘
 		┌─┐┌─┐─┐ ┬      
 		├┤ │ │┌┴┬┘      
 		└  └─┘┴ └─
-		(Modified)
 	
 ═══════════════════════════════════════════════════════════════════════════*/
 
@@ -239,16 +235,16 @@
 }
 
 #tabs-newtab-button {
-  list-style-image: url("add.svg") !important;
+  list-style-image: url("assets/add.svg") !important;
   opacity: 0.7;
 }
 
 #back-button {
-  list-style-image: url("left-arrow.svg") !important;
+  list-style-image: url("assets/left-arrow.svg") !important;
 }
 
 #forward-button {
-  list-style-image: url("right-arrow.svg") !important;
+  list-style-image: url("assets/right-arrow.svg") !important;
 }
 
 

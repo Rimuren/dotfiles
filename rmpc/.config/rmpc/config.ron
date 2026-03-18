@@ -1,249 +1,130 @@
-// ==========================================================
-// rmpc config.ron
-// Minimal GNOME layout with album art + cava
-// Designed for personal use but readable for others
-// ==========================================================
-
 #![enable(implicit_some)]
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
 
 (
-    // ------------------------------------------------------
+    // ======================================================
     // MPD CONNECTION
-    // ------------------------------------------------------
-    // Path to MPD socket
-    // Default for many Linux setups:
-
-    // ~/.config/mpd/socket
+    // ======================================================
     address: "~/.config/mpd/socket",
     password: None,
     cache_dir: None,
-
-    // Run script on song change (unused)
     on_song_change: None,
 
-    // ------------------------------------------------------
-    // UI / BEHAVIOR
-    // ------------------------------------------------------
+    // ======================================================
+    // UI PERFORMANCE
+    // ======================================================
+    max_fps: 60,
+    render_mode: DoubleBuffered,
+    status_update_interval_ms: 1000,
     volume_step: 1,
-    max_fps: 30,
-
-    // Lines kept visible above/below cursor
     scrolloff: 0,
-
     wrap_navigation: false,
     enable_mouse: true,
-
-    // Hot reload config when saved
     enable_config_hot_reload: true,
 
-    // Status refresh interval
-    status_update_interval_ms: 1000,
+    virtual_list: (
+        enabled: true,
+        overscan_lines: 20,
+    ),
 
-    rewind_to_start_sec: None,
-
+    // ======================================================
+    // PLAYLIST BEHAVIOR
+    // ======================================================
     reflect_changes_to_playlist: false,
     select_current_song_on_change: false,
+    rewind_to_start_sec: None,
 
-    // Sorting behavior
+    // ======================================================
+    // SORTING
+    // ======================================================
     browser_song_sort: [Disc, Track, Artist, Title],
     directories_sort: SortFormat(group_by_type: true, reverse: false),
 
-    // ------------------------------------------------------
+    // ======================================================
     // THEME
-    // ------------------------------------------------------
-    theme_file: "~/.config/rmpc/themes/theme.ron",
-    theme: Some("theme"),
+    // ======================================================
+    theme_file: "~/.config/rmpc/themes/*",
+    theme: Some("nordish"),
 
-    // ------------------------------------------------------
+    // ======================================================
     // ALBUM ART
-    // ------------------------------------------------------
+    // ======================================================
     album_art: (
         method: Auto,
-
-        // Max image size
         max_size_px: (width: 650, height: 650),
-
-        // Disable remote fetching
         disabled_protocols: ["http://", "https://"],
-
         vertical_align: Center,
         horizontal_align: Center,
     ),
 
-    // ------------------------------------------------------
-    // CAVA VISUALIZER
-    // ------------------------------------------------------
-    // Enabled by default in this config.
-    // If you don't want cava:
-    // - comment this entire block
-    // - use the "no cava" layout in tabs section
-    // cava: (
-    //     framerate: 45,
-    //     autosens: true,
-    //     sensitivity: 65,
+    // ======================================================
+    // CAVA VISUALIZER - UNCOMMENT TO ENABLE
+    // ======================================================
+    // Copy the content from modules/cava.ron here
 
-    //     lower_cutoff_freq: 50,
-    //     higher_cutoff_freq: 10000,
 
-    //     // Input from MPD FIFO
-    //     input: (
-    //         method: Fifo,
-    //         source: "/tmp/mpd.fifo",
-    //         sample_rate: 44100,
-    //         channels: 2,
-    //         sample_bits: 16,
-    //     ),
-
-    //     output: (
-    //         method: noncurses,
-    //         orientation: bottom,
-    //         channels: mono,
-    //         mono_option: average,
-    //         synchronized_sync: 1,
-    //     ),
-
-    //     smoothing: (
-    //         noise_reduction: 65,
-    //         monstercat: true,
-    //         waves: false,
-    //     ),
-
-    //     // EQ (10 bands)
-    //     eq: [
-    //         1.0, 1.0, 1.0, 1.0, 1.0,
-    //         1.0, 1.0, 1.0, 1.0, 1.0,
-    //     ]
-    // ),
-
-    // ------------------------------------------------------
+    // ======================================================
     // KEYBINDS
-    // Mostly default rmpc keybinds
-    // ------------------------------------------------------
+    // ======================================================
     keybinds: (
         global: {
-            ":":       CommandMode,
-            ",":       VolumeDown,
-            ".":       VolumeUp,
-            "s":       Stop,
-            "p":       TogglePause,
-            ">":       NextTrack,
-            "<":       PreviousTrack,
-
-            "<Tab>":   NextTab,
-            "<S-Tab>": PreviousTab,
-
-            "1": SwitchToTab("Queue"),
-            "2": SwitchToTab("Directories"),
-            "3": SwitchToTab("Artists"),
-            "4": SwitchToTab("Album Artists"),
-            "5": SwitchToTab("Albums"),
-            "6": SwitchToTab("Playlists"),
-            "7": SwitchToTab("Search"),
-
-            "q": Quit,
-
-            "f": SeekForward,
-            "b": SeekBack,
-
-            "z": ToggleRepeat,
-            "x": ToggleRandom,
-            "c": ToggleConsume,
-            "v": ToggleSingle,
-
-            "~": ShowHelp,
-            "u": Update,
-            "U": Rescan,
-
-            "I": ShowCurrentSongInfo,
-            "O": ShowOutputs,
-            "P": ShowDecoders,
-            "R": AddRandom,
+            "s": Stop, "p": TogglePause, ">": NextTrack, "<": PreviousTrack,
+            ",": VolumeDown, ".": VolumeUp, "f": SeekForward, "b": SeekBack,
+            "z": ToggleRepeat, "x": ToggleRandom, "c": ToggleConsume, "v": ToggleSingle,
+            "<Tab>": NextTab, "<S-Tab>": PreviousTab,
+            "1": SwitchToTab("Playing"), "2": SwitchToTab("Directories"),
+            "3": SwitchToTab("Artists"), "4": SwitchToTab("Playlists"),
+            ":": CommandMode, "~": ShowHelp, "u": Update, "U": Rescan,
+            "I": ShowCurrentSongInfo, "O": ShowOutputs, "P": ShowDecoders,
+            "R": AddRandom, "q": Quit,
         },
-
         navigation: {
-            "k": Up,
-            "j": Down,
-            "h": Left,
-            "l": Right,
-
-            "<Up>": Up,
-            "<Down>": Down,
-            "<Left>": Left,
-            "<Right>": Right,
-
-            "<C-k>": PaneUp,
-            "<C-j>": PaneDown,
-            "<C-h>": PaneLeft,
-            "<C-l>": PaneRight,
-
-            "g": Top,
-            "G": Bottom,
-
-            "<CR>": Confirm,
-            "<Esc>": Close,
-            "<C-c>": Close,
-
-            "/": EnterSearch,
-            "<Space>": Select,
-
-            "a": Add,
-            "A": AddAll,
-            "d": Delete,
-            "D": Delete,
-            "r": Rename,
-
-            "J": MoveDown,
-            "K": MoveUp,
-
-            "B": ShowInfo,
+            "k": Up, "j": Down, "h": Left, "l": Right,
+            "<Up>": Up, "<Down>": Down, "<Left>": Left, "<Right>": Right,
+            "<C-k>": PaneUp, "<C-j>": PaneDown, "<C-h>": PaneLeft, "<C-l>": PaneRight,
+            "g": Top, "G": Bottom,
+            "<CR>": Confirm, "<Esc>": Close, "<C-c>": Close,
+            "/": EnterSearch, "<Space>": Select,
+            "a": Add, "A": AddAll, "d": Delete, "D": Delete, "r": Rename,
+            "J": MoveDown, "K": MoveUp, "B": ShowInfo,
         },
-
         queue: {
-            "<CR>": Play,
-            "a": AddToPlaylist,
-            "d": Delete,
-            "D": DeleteAll,
-            "<C-s>": Save,
-            "C": JumpToCurrent,
-            "X": Shuffle,
+            "<CR>": Play, "a": AddToPlaylist, "d": Delete, "D": DeleteAll,
+            "<C-s>": Save, "C": JumpToCurrent, "X": Shuffle,
         },
     ),
 
-    // ------------------------------------------------------
+    // ======================================================
     // SEARCH
-    // ------------------------------------------------------
+    // ======================================================
     search: (
         case_sensitive: false,
         mode: Contains,
         tags: [
-            (value: "any",         label: "Any Tag"),
-            (value: "artist",      label: "Artist"),
-            (value: "album",       label: "Album"),
+            (value: "any", label: "Any Tag"),
+            (value: "artist", label: "Artist"),
+            (value: "album", label: "Album"),
             (value: "albumartist", label: "Album Artist"),
-            (value: "title",       label: "Title"),
-            (value: "filename",    label: "Filename"),
-            (value: "genre",       label: "Genre"),
+            (value: "title", label: "Title"),
+            (value: "filename", label: "Filename"),
+            (value: "genre", label: "Genre"),
         ],
     ),
 
-    // ------------------------------------------------------
+    // ======================================================
     // ARTIST VIEW
-    // ------------------------------------------------------
+    // ======================================================
     artists: (
         album_display_mode: SplitByDate,
         album_sort_by: Date,
     ),
 
-    // ------------------------------------------------------
-    // TABS / LAYOUT
-    // ------------------------------------------------------
+    // ======================================================
+    // TABS / LAYOUT - Pilih salah satu
+    // ======================================================
     tabs: [
-
-        // --------------------------------------------------
-        // LAYOUT WITHOUT CAVA
-        // Uncomment if you do NOT want cava
+        // WITHOUT CAVA (default)
         (
             name: "Playing",
             pane: Split(
@@ -255,25 +136,13 @@
             ),
         ),
 
-        // --------------------------------------------------
-        // LAYOUT WITH CAVA (DEFAULT)
-        // Comment this if using the no-cava layout above
-        // (
-        //     name: "Playing",
-        //     pane: Split(
-        //         direction: Horizontal,
-        //         panes: [
-        //             (size: "65%", pane: Pane(Queue)),
-        //             (size: "35%", pane: Split(
-        //                 direction: Vertical,
-        //                 panes: [
-        //                     (size: "65%", pane: Pane(AlbumArt)),
-        //                     (size: "35%", pane: Pane(Cava)),
-        //                 ],
-        //             )),
-        //         ],
-        //     ),
-        // ),
+        // ==================================================
+        // Copy the content from modules/layouts/with-cava.ron here
+        // WITH CAVA - comment the one above
+        
+
+
+        // ==================================================
 
         (name: "Directories", pane: Pane(Directories)),
         (name: "Artists", pane: Pane(Artists)),

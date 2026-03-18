@@ -3,8 +3,8 @@
 return function(config)
   -- Performance
   config.front_end = "Software"
-  config.max_fps = 30
-  config.animation_fps = 30
+  config.max_fps = 60
+  config.animation_fps = 60
   config.term = "wezterm"
   config.scrollback_lines = 10000
 

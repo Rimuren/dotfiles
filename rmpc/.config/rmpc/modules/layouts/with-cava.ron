@@ -1,0 +1,17 @@
+// Layout with Cava Visualizer
+(
+    name: "Playing",
+    pane: Split(
+        direction: Horizontal,
+        panes: [
+            (size: "65%", pane: Pane(Queue)),
+            (size: "35%", pane: Split(
+                direction: Vertical,
+                panes: [
+                    (size: "65%", pane: Pane(AlbumArt)),
+                    (size: "35%", pane: Pane(Cava)),
+                ],
+            )),
+        ],
+    ),
+)

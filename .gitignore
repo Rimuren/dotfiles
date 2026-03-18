@@ -2,9 +2,8 @@
 # MPD runtime files
 # ========================
 
+mpd/.config/mpd/component
 mpd/.config/mpd/state
-mpd/.config/mpd/database
-mpd/.config/mpd/sticker.sql
 mpd/.config/mpd/socket
 
 # playlists (private)
@@ -15,8 +14,11 @@ mpd/.config/mpd/playlists/
 # ========================
 
 *.save
+*_save
 *_backup
 *_old
+*_ignore
+*.ignore
 wezterm_old/
 wezterm/.stow-local-ignore
 
