@@ -19,6 +19,7 @@ All configs are separated per application and symlinked using **stow**.
 ```
 dotfiles/
 ├── bash/            → ~/.bashrc
+├── atuin/           → ~/.config/atuin
 ├── zsh/             → ~/.config/zsh (modular zsh configuration)
 ├── wezterm/         → ~/.config/wezterm
 ├── fastfetch/       → ~/.config/fastfetch
@@ -29,7 +30,6 @@ dotfiles/
 ├── mpd-mpris/       → systemd user service config
 ├── rmpc/            → ~/.config/rmpc
 ├── cava/            → ~/.config/cava
-├── firefox/         → Firefox userChrome customization
 └── README.md
 ```
 
