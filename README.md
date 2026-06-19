@@ -140,6 +140,7 @@ Apply only what you need:
 ```bash
 stow bash
 stow zsh
+stow atuin
 stow wezterm
 stow starship
 stow fastfetch
