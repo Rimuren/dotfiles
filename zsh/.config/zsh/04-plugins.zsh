@@ -32,7 +32,7 @@ done
 _lazy_plugins=(
   "zsh-autosuggestions/zsh-autosuggestions.zsh"
   "zsh-autopair/zsh-autopair.plugin.zsh"
-  "zsh-interactive-cd/zsh-interactive-cd.plugin.zsh"
+  "interactive-cd/zsh-interactive-cd.plugin.zsh"
 )
 
 _load_lazy_plugins() {
