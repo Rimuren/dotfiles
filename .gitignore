@@ -41,16 +41,6 @@ wezterm/.stow-local-ignore
 .DS_Store
 Thumbs.db
 
-
-# ========================
-# Browser private data
-# ========================
-
-firefox/.mozilla/
-.mozilla/
-firefox
-
-
 # ========================
 # Application state
 # ========================
