@@ -138,16 +138,16 @@ cd ~/dotfiles
 Apply only what you need:
 
 ```bash
-stow bash
+stow mpc
+stow mpd
 stow zsh
+stow rmpc
+stow bash
 stow atuin
 stow wezterm
 stow starship
 stow fastfetch
 stow superfile
-stow mpd
-stow mpc
-stow rmpc
 stow mpd-mpris
 ```
 
