@@ -1,0 +1,77 @@
+# ========================
+# Git
+# ========================
+.git
+.gitignore
+
+# ========================
+# Backup files
+# ========================
+*.bak
+*.backup
+*.old
+*.save
+*_save
+*_backup
+*_old
+*_ignore
+*.ignore
+
+# ========================
+# Temporary files
+# ========================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ========================
+# OS generated files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Cache
+# ========================
+.cache/
+**/.cache/
+
+# ========================
+# Browser data
+# Personal profiles, cookies, history, cache
+# ========================
+.mozilla/
+**/.mozilla/
+
+# ========================
+# Application state
+# ========================
+.local/state/
+**/.local/state/
+
+# ========================
+# Runtime files
+# ========================
+*.pid
+*.sock
+*.socket
+
+# ========================
+# MPD runtime / private state
+# ========================
+mpd/socket
+mpd/state
+mpd/database
+mpd/sticker.sql
+**/mpd/socket
+**/mpd/state
+**/mpd/database
+**/mpd/sticker.sql
+
+# ========================
+# Wezterm old configs
+# ========================
+wezterm_old/
+wezterm/.stow-local-ignore
