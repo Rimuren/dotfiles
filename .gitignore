@@ -1,26 +1,34 @@
 # ========================
-# MPD runtime files
+# MPD private/runtime files
 # ========================
 
 mpd/.config/mpd/component
+mpd/.config/mpd/playlists
 mpd/.config/mpd/state
 mpd/.config/mpd/socket
+mpd/.config/mpd/database
+mpd/.config/mpd/sticker.sql
 
 # playlists (private)
 mpd/.config/mpd/playlists/
+
 
 # ========================
 # Backups
 # ========================
 
 *.save
+*.bak
+*.backup
 *_save
 *_backup
 *_old
 *_ignore
 *.ignore
+
 wezterm_old/
 wezterm/.stow-local-ignore
+
 
 # ========================
 # System / cache
@@ -28,4 +36,41 @@ wezterm/.stow-local-ignore
 
 *.log
 *.cache
+.cache/
+
 .DS_Store
+Thumbs.db
+
+
+# ========================
+# Browser private data
+# ========================
+
+firefox/.mozilla/
+.mozilla/
+
+
+# ========================
+# Application state
+# ========================
+
+.local/state/
+**/.local/state/
+
+*.pid
+*.sock
+
+
+# ========================
+# Secrets
+# ========================
+
+.env
+.env.*
+*.key
+*.pem
+*.token
+*.secret
+
+# zsh runtime history
+.local/state/

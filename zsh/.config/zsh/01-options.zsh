@@ -1,6 +1,6 @@
 # ======================
 # Zsh Options
-# 01-options.zsh
+# zsh/.config/zsh/01-options.zsh
 # ======================
 
 setopt \
@@ -24,4 +24,4 @@ setopt \
   hist_verify \
   append_history \
   inc_append_history \
-  share_history
+  extended_history

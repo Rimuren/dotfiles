@@ -1,8 +1,9 @@
 # ======================
 # History Configuration
-# 02-history.zsh
+# zsh/.config/zsh/02-history.zsh
 # ======================
-
-HISTFILE=$HOME/.config/zsh/history
+HISTFILE="$HOME/.local/state/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
+
+mkdir -p "${HISTFILE:h}"

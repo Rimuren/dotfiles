@@ -1,6 +1,6 @@
 # ======================
 # Bluetooth Helper
-# /zsh/.config/zsh/ui/bluetooth.zsh
+# /zsh/.config/zsh/ui/10-bluetooth.zsh
 # ======================
 
 _ensure_bluetooth() {

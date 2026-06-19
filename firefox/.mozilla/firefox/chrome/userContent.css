@@ -1,19 +1,9 @@
+/*
+  ⋅˚₊‧ ୨୧ ‧₊˚ ⋅
+    Parfait
+  ⋅˚₊‧ ୨୧ ‧₊˚ ⋅
 
-/*═══════════════════════════════════════════════════════════════════════════
+  https://github.com/reizumii/parfait
+*/
 
-    ┌┐ ┌┬┐ ┐ ┌ ┬┐ ┬ ┬┐   ┌─┐┌─┐─┐ ┬
-    └┐  │  │ │ ├┘ │ ││   ├┤ │ │┌┴┬┘
-    └┘  ┴  └─┘ ┴  ┴ ┴┘   └  └─┘┴ └─
-	
-═══════════════════════════════════════════════════════════════════════════*/
-@import url("userChrome.css");
-
-:root {
-  scrollbar-width: none !important;
-}
-
-@-moz-document url(about:privatebrowsing) {
-  :root {
-    scrollbar-width: none !important;
-  }
-}
+@import "parfait/pages.css";
