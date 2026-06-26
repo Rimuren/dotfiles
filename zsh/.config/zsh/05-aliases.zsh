@@ -1,7 +1,7 @@
-# ======================
+# =============================
 # Aliases
 # ~/.config/zsh/05-aliases.zsh
-# ======================
+# =============================
 
 # Use eza if available, fallback to ls
 if command -v eza &>/dev/null; then

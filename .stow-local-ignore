@@ -5,17 +5,31 @@
 .gitignore
 
 # ========================
-# Backup files
+# Backup / temp files
 # ========================
 *.bak
 *.backup
 *.old
 *.save
-*_save
+*.orig
+*.tmp
+*.temp
+*.ignore
+*_bak
 *_backup
 *_old
+*_save
+*_orig
+*_tmp
+*_temp
 *_ignore
-*.ignore
+*-bak
+*-backup
+*-old
+*-save
+*-orig
+*-tmp
+*-temp
 
 # ========================
 # Temporary files

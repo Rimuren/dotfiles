@@ -1,7 +1,7 @@
-# ======================
+# ================================
 # Completion System
 # ~/.config/zsh/03-completion.zsh
-# ======================
+# ================================
 
 # Extra completions must be added to fpath before compinit
 fpath+=("$ZSH_PLUGINS/zsh-completions/src")

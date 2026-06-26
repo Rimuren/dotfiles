@@ -1,7 +1,7 @@
-# ======================
+# ===================================
 # FZF Helper
-# zsh/.config/zsh/helpers/10-fzf.zsh
-# ======================
+# ~/.config/zsh/helpers/10-fzf.zsh
+# ===================================
 
 # Base fzf wrapper with consistent UI defaults.
 # Caller options override these defaults.

@@ -18,33 +18,20 @@ Instead of using a plugin manager, plugins are **stored directly in the reposito
 
 ```
 zsh/
-├── .config/zsh
-│
-│   ├── 00-env.zsh
-│   ├── 01-options.zsh
-│   ├── 02-history.zsh
-│   ├── 03-completion.zsh
-│   ├── 04-plugins.zsh
-│   ├── 05-aliases.zsh
-│   ├── 06-fzf.zsh
-│
-│   ├── 20-helpers.zsh
-│   ├── 35-ui.zsh
-│
-│   ├── helpers/
-│   │   └── fzf.zsh
-│   │
-│   ├── ui/
-│   │   ├── bluetooth.zsh
-│   │   ├── finder.zsh
-│   │   ├── nmap.zsh
-│   │   └── miseui.zsh
-│
-│   ├── 40-prompt.zsh
-│   └── 50-startup.zsh
-│
-└── plugins/
-    └── manual/
+└── .config/zsh/
+    ├── 00-env.zsh          # XDG, PATH, editor, env vars
+    ├── 01-options.zsh      # shell options
+    ├── 02-history.zsh      # history file & size
+    ├── 03-completion.zsh   # compinit, zstyle, cache
+    ├── 04-plugins.zsh      # plugin loader (core + lazy)
+    ├── 05-aliases.zsh      # aliases
+    ├── 40-init.zsh         # mise, starship, atuin init
+    ├── 41-keybind.zsh      # ZLE keybindings
+    ├── 50-startup.zsh      # fastfetch on interactive shell
+    ├── helpers/
+    │   └── 10-fzf.zsh      # fzfui() wrapper
+    └── plugins/
+        └── manual/         # vendored plugins
 ```
 
 ---
@@ -56,17 +43,15 @@ The configuration follows a **numbered loading system**.
 `.zshrc` loads files automatically in order:
 
 ```
-00 → environment
+00 → environment vars
 01 → shell options
 02 → history
 03 → completion
-04 → plugin loader
+04 → plugins (core eager + lazy via precmd)
 05 → aliases
-06 → fzf integration
-20 → helpers
-35 → CLI tools
-40 → prompt
-50 → startup info
+40 → tool inits (mise, starship, atuin)   # 40-init.zsh
+41 → ZLE keybindings (runs after tool inits)
+50 → startup display (fastfetch)
 ```
 
 This approach makes the config:
@@ -88,7 +73,7 @@ helpers/
 Example:
 
 ```
-helpers/fzf.zsh
+helpers/10-fzf.zsh
 ```
 
 Provides a reusable **fzf UI wrapper** used across the config.

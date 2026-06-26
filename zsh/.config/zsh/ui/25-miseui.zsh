@@ -1,13 +1,16 @@
-# ======================
+# ===============================
 # Mise Runtime Manager UI
 # ~/.config/zsh/ui/25-miseui.zsh
-# ======================
+# ===============================
 
 command -v mise >/dev/null || return
 
 # Cache dir for slow remote calls
 _MISE_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/miseui"
 mkdir -p "$_MISE_CACHE_DIR"
+
+# fzf wrapper for mise — no preview by default, caller can override
+_mfzf() { fzfui --preview-window=hidden "$@"; }
 
 # Main entry point
 miseui() {
@@ -26,59 +29,52 @@ miseui() {
     "  Reshim" \
     "  Remote Versions" \
     "  Mise Commands" \
-    | fzf \
-        --height=~70% \
-        --layout=reverse-list \
-        --border \
-        --cycle \
+    | _mfzf \
         --prompt="Mise > " \
         --preview-window=hidden \
     ) || return
 
   case "$choice" in
-    *"Install Runtime")   _mise_install_runtime ;;
-    *"Switch Runtime")    _mise_switch_runtime ;;
-    *"Update Runtime")    _mise_update_runtime ;;
-    *"Remove Runtime")    _mise_remove_runtime ;;
+    *"Install Runtime")    _mise_install_runtime ;;
+    *"Switch Runtime")     _mise_switch_runtime ;;
+    *"Update Runtime")     _mise_update_runtime ;;
+    *"Remove Runtime")     _mise_remove_runtime ;;
     *"Installed Runtimes") _mise_list_runtimes ;;
-    *"Current Runtimes")  _mise_current_runtime ;;
-    *"Plugins")           _mise_list_plugins ;;
-    *"Install Plugin")    _mise_install_plugin ;;
-    *"Remove Plugin")     _mise_remove_plugin ;;
+    *"Current Runtimes")   _mise_current_runtime ;;
+    *"Plugins")            _mise_list_plugins ;;
+    *"Install Plugin")     _mise_install_plugin ;;
+    *"Remove Plugin")      _mise_remove_plugin ;;
     *"Update All Plugins") mise plugins update ;;
-    *"Reshim")            mise reshim && echo "Reshim done." ;;
-    *"Remote Versions")   _mise_remote_versions ;;
-    *"Mise Commands")     _mise_commands ;;
+    *"Reshim")             mise reshim && echo "Reshim done." ;;
+    *"Remote Versions")    _mise_remote_versions ;;
+    *"Mise Commands")      _mise_commands ;;
   esac
+}
+
+# --- Cache helper ---
+
+_mise_cache_refresh() {
+  local cache="$1"
+  if [[ ! -f "$cache" ]] || [[ $(find "$cache" -mtime +1 2>/dev/null) ]]; then
+    echo "Fetching plugin list (first run may take a moment)..."
+    mise plugins ls-remote > "$cache" 2>/dev/null
+  fi
 }
 
 # --- Runtime management ---
 
 _mise_install_runtime() {
   local tool version cache="$_MISE_CACHE_DIR/plugins-remote"
-
-  # Cache remote plugin list for 1 day — it's very slow without cache
-  if [[ ! -f "$cache" ]] || [[ $(find "$cache" -mtime +1 2>/dev/null) ]]; then
-    echo "Fetching plugin list (first run may take a moment)..."
-    mise plugins ls-remote > "$cache" 2>/dev/null
-  fi
+  _mise_cache_refresh "$cache"
 
   tool=$(awk '{print $1}' "$cache" | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Tool > " \
       --preview 'grep "^{}" '"$cache"' | head -5'
   ) || return
 
   version=$(mise ls-remote "$tool" 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Version ($tool) > " \
       --preview "echo 'Installing: $tool@{}'"
   ) || return
@@ -91,11 +87,7 @@ _mise_switch_runtime() {
   local runtime tool version scope
 
   runtime=$(mise ls --installed 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Switch to > " \
       --preview 'echo "Runtime: {}"'
   ) || return
@@ -103,12 +95,9 @@ _mise_switch_runtime() {
   tool=$(awk '{print $1}' <<< "$runtime")
   version=$(awk '{print $2}' <<< "$runtime")
 
-  # Ask scope: global or local
   scope=$(printf "global\nlocal" | \
-    fzf \
+    _mfzf \
       --height=~20% \
-      --layout=reverse-list \
-      --border \
       --prompt="Scope > " \
       --preview-window=hidden
   ) || return
@@ -122,11 +111,7 @@ _mise_switch_runtime() {
 _mise_update_runtime() {
   local tool
   tool=$(mise ls --installed 2>/dev/null | awk '{print $1}' | sort -u | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Update > " \
       --preview 'mise ls --installed 2>/dev/null | grep "^{}"'
   ) || return
@@ -139,11 +124,7 @@ _mise_remove_runtime() {
   local runtime tool version confirm
 
   runtime=$(mise ls --installed 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Remove > " \
       --preview 'echo "Will uninstall: {}"'
   ) || return
@@ -151,12 +132,9 @@ _mise_remove_runtime() {
   tool=$(awk '{print $1}' <<< "$runtime")
   version=$(awk '{print $2}' <<< "$runtime")
 
-  # Confirm before removing
   confirm=$(printf "No\nYes" | \
-    fzf \
+    _mfzf \
       --height=~20% \
-      --layout=reverse-list \
-      --border \
       --prompt="Remove $tool@$version? > " \
       --preview-window=hidden
   ) || return
@@ -168,11 +146,7 @@ _mise_list_runtimes() {
   local runtime tool version action
 
   runtime=$(mise ls --installed 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Runtimes > " \
       --preview 'mise ls --installed 2>/dev/null | grep "^$(echo {} | awk "{print \$1}")"'
   ) || return
@@ -181,12 +155,9 @@ _mise_list_runtimes() {
   tool=$(awk '{print $1}' <<< "$runtime")
   version=$(awk '{print $2}' <<< "$runtime")
 
-  # Action menu after selecting a runtime
   action=$(printf "Switch to this (global)\nSwitch to this (local)\nRemove\nCancel" | \
-    fzf \
+    _mfzf \
       --height=~25% \
-      --layout=reverse-list \
-      --border \
       --prompt="$tool@$version > " \
       --preview-window=hidden
   ) || return
@@ -200,11 +171,7 @@ _mise_list_runtimes() {
 
 _mise_current_runtime() {
   mise current 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Current > " \
       --preview 'echo "Active: {}"' \
       --preview-window=right:40%:wrap
@@ -216,23 +183,16 @@ _mise_list_plugins() {
   local plugin action
 
   plugin=$(mise plugins ls 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Plugins > " \
       --preview 'mise ls --installed 2>/dev/null | grep "^{}"'
   ) || return
 
   [[ -z "$plugin" ]] && return
 
-  # Action menu after selecting a plugin
   action=$(printf "List versions\nUpdate\nRemove\nCancel" | \
-    fzf \
+    _mfzf \
       --height=~25% \
-      --layout=reverse-list \
-      --border \
       --prompt="$plugin > " \
       --preview-window=hidden
   ) || return
@@ -246,18 +206,10 @@ _mise_list_plugins() {
 
 _mise_install_plugin() {
   local plugin cache="$_MISE_CACHE_DIR/plugins-remote"
-
-  if [[ ! -f "$cache" ]] || [[ $(find "$cache" -mtime +1 2>/dev/null) ]]; then
-    echo "Fetching plugin list..."
-    mise plugins ls-remote > "$cache" 2>/dev/null
-  fi
+  _mise_cache_refresh "$cache"
 
   plugin=$(awk '{print $1}' "$cache" | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Install Plugin > " \
       --preview 'grep "^{}" '"$cache"
   ) || return
@@ -268,26 +220,19 @@ _mise_install_plugin() {
 
 _mise_remove_plugin() {
   # Accept plugin name as arg (from _mise_list_plugins) or pick via fzf
-  local plugin="${1:-}"
-  local confirm
+  local plugin="${1:-}" confirm
 
   if [[ -z "$plugin" ]]; then
     plugin=$(mise plugins ls 2>/dev/null | \
-      fzf \
-        --height=~70% \
-        --layout=reverse-list \
-        --border \
-        --cycle \
+      _mfzf \
         --prompt="Remove Plugin > " \
         --preview-window=hidden
     ) || return
   fi
 
   confirm=$(printf "No\nYes" | \
-    fzf \
+    _mfzf \
       --height=~20% \
-      --layout=reverse-list \
-      --border \
       --prompt="Remove plugin $plugin? > " \
       --preview-window=hidden
   ) || return
@@ -296,31 +241,17 @@ _mise_remove_plugin() {
 }
 
 _mise_remote_versions() {
-  local tool cache="$_MISE_CACHE_DIR/plugins-remote"
-
-  if [[ ! -f "$cache" ]] || [[ $(find "$cache" -mtime +1 2>/dev/null) ]]; then
-    echo "Fetching plugin list..."
-    mise plugins ls-remote > "$cache" 2>/dev/null
-  fi
+  local tool version cache="$_MISE_CACHE_DIR/plugins-remote"
+  _mise_cache_refresh "$cache"
 
   tool=$(awk '{print $1}' "$cache" | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Tool > " \
       --preview 'mise ls-remote {} 2>/dev/null | head -20'
   ) || return
 
-  # After picking tool, pick version — Enter to install
-  local version
   version=$(mise ls-remote "$tool" 2>/dev/null | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="$tool version > " \
       --preview "echo 'Press Enter to install $tool@{}'" \
       --header="Enter: install this version"
@@ -331,22 +262,16 @@ _mise_remote_versions() {
 }
 
 # --- Mise command reference ---
-# Shows all mise commands with description, runs selected command
 
 _mise_commands() {
-  local cmd
+  local cmd command_str
 
-  # Static list with descriptions — more useful than `mise help` raw output
   cmd=$(cat <<'EOF' | \
-    fzf \
-      --height=~70% \
-      --layout=reverse-list \
-      --border \
-      --cycle \
+    _mfzf \
       --prompt="Command > " \
       --preview 'echo {} | awk "{print \$1}" | xargs mise help 2>/dev/null || echo "No help available"' \
       --preview-window=right:50%:wrap \
-      --header="Enter: run  |  Ctrl+Y: copy"
+      --header="Enter: run"
 mise install            Install a tool version
 mise use                Set tool version (local .mise.toml)
 mise use -g             Set tool version globally
@@ -375,11 +300,7 @@ mise which              Show path of a tool binary
 EOF
   ) || return
 
-  # Extract just the command (first word(s) before whitespace padding)
-  local command_str
   command_str=$(awk '{print $1, ($2 ~ /^-/ ? $2 : "")}' <<< "$cmd" | xargs)
-
-  # Run it interactively
   echo "Running: mise $command_str"
   eval "mise $command_str"
 }

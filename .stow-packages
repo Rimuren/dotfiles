@@ -1,0 +1,15 @@
+# Packages to stow when running stow-all
+# One package per line, lines starting with # are ignored
+
+bash
+zsh
+atuin
+wezterm
+fastfetch
+starship
+# superfile
+mpd
+mpDris2
+rmpc
+cava
+scripts

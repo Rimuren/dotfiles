@@ -1,7 +1,7 @@
-# ======================
+# =============================
 # Manual Plugin Loader
 # ~/.config/zsh/04-plugins.zsh
-# ======================
+# =============================
 autoload -Uz add-zsh-hook
 
 load_plugin() {
@@ -27,7 +27,7 @@ done
 
 # Lazy plugins — loaded before the first prompt.
 # Safe to add any plugin here that doesn't wrap core ZLE widgets.
-# These run in precmd BEFORE _setup_keybindings (see 40-prompt.zsh),
+# These run in precmd BEFORE _setup_keybindings (see 41-keybind.zsh),
 # so their load order relative to bindkey is guaranteed
 _lazy_plugins=(
   "zsh-autosuggestions/zsh-autosuggestions.zsh"

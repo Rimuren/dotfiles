@@ -1,7 +1,7 @@
-# ======================
+# ===========================
 # Environment Variables
-# zsh/.config/zsh/00-env.zsh
-# ======================
+# ~/.config/zsh/00-env.zsh
+# ===========================
 
 # XDG base dirs — many tools follow these
 export XDG_CONFIG_HOME="$HOME/.config"

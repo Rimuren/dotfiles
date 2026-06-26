@@ -1,0 +1,75 @@
+#!/bin/bash
+
+DIR="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+STATE="$HOME/.cache/wall_index"
+
+mkdir -p ~/.cache
+
+mapfile -t WALLS < <(find "$DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort)
+TOTAL=${#WALLS[@]}
+
+_die() { echo "wallctl: $*" >&2; exit 1; }
+
+_set_wall() {
+    local wall="$1"
+    [[ -f "$wall" ]] || _die "file not found: $wall"
+    gsettings set org.gnome.desktop.background picture-uri "file://$wall"
+    gsettings set org.gnome.desktop.background picture-uri-dark "file://$wall"
+}
+
+_load_index() {
+    local idx=0
+    if [[ -f "$STATE" ]]; then
+        idx=$(< "$STATE")
+        [[ "$idx" =~ ^[0-9]+$ ]] && (( idx < TOTAL )) || idx=0
+    fi
+    echo "$idx"
+}
+
+case "$1" in
+    next|prev)
+        (( TOTAL == 0 )) && _die "no wallpapers found in $DIR"
+        INDEX=$(_load_index)
+        [[ "$1" == next ]] \
+            && INDEX=$(( (INDEX + 1) % TOTAL )) \
+            || INDEX=$(( (INDEX - 1 + TOTAL) % TOTAL ))
+        echo "$INDEX" > "$STATE"
+        _set_wall "${WALLS[$INDEX]}"
+        echo "${WALLS[$INDEX]}"
+        ;;
+    set)
+        [[ -z "$2" ]] && _die "usage: wallctl set <path>"
+        INDEX=0
+        for i in "${!WALLS[@]}"; do
+            [[ "${WALLS[$i]}" == "$2" ]] && { INDEX=$i; break; }
+        done
+        echo "$INDEX" > "$STATE"
+        _set_wall "$2"
+        echo "$2"
+        ;;
+    random)
+        (( TOTAL == 0 )) && _die "no wallpapers found in $DIR"
+        INDEX=$(( RANDOM % TOTAL ))
+        echo "$INDEX" > "$STATE"
+        _set_wall "${WALLS[$INDEX]}"
+        echo "${WALLS[$INDEX]}"
+        ;;
+    list)
+        (( TOTAL == 0 )) && _die "no wallpapers found in $DIR"
+        INDEX=$(_load_index)
+        for i in "${!WALLS[@]}"; do
+            [[ "$i" == "$INDEX" ]] \
+                && echo "* ${WALLS[$i]}" \
+                || echo "  ${WALLS[$i]}"
+        done
+        ;;
+    status)
+        (( TOTAL == 0 )) && _die "no wallpapers found in $DIR"
+        INDEX=$(_load_index)
+        echo "${WALLS[$INDEX]}"
+        ;;
+    *)
+        echo "usage: wallctl <next|prev|random|list|status|set <path>>"
+        exit 1
+        ;;
+esac

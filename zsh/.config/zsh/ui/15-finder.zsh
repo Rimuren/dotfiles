@@ -1,7 +1,7 @@
-# ======================
+# =================================
 # File Finder
-# zsh/.config/zsh/ui/15-finder.zsh
-# ======================
+# ~/.config/zsh/ui/15-finder.zsh
+# =================================
 
 # ff — fuzzy file finder with smart preview
 # Enter: open file(s) with xdg-open

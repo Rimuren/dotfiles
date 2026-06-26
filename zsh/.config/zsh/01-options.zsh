@@ -1,7 +1,7 @@
-# ======================
+# ===============================
 # Zsh Options
-# zsh/.config/zsh/01-options.zsh
-# ======================
+# ~/.config/zsh/01-options.zsh
+# ===============================
 
 setopt \
   autocd \
@@ -15,13 +15,4 @@ setopt \
   no_beep \
   auto_menu \
   prompt_subst \
-  correct \
-  hist_ignore_dups \
-  hist_ignore_all_dups \
-  hist_save_no_dups \
-  hist_reduce_blanks \
-  hist_ignore_space \
-  hist_verify \
-  append_history \
-  inc_append_history \
-  extended_history
+  correct

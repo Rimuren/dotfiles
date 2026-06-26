@@ -1,7 +1,7 @@
-# ======================
+# =====================================
 # Bluetooth Helper
-# /zsh/.config/zsh/ui/10-bluetooth.zsh
-# ======================
+# ~/.config/zsh/ui/10-bluetooth.zsh
+# =====================================
 
 _ensure_bluetooth() {
   if ! systemctl is-active --quiet bluetooth; then

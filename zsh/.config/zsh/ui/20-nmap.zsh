@@ -1,7 +1,7 @@
-# ======================
+# ===============================
 # Nmap Helper
-# zsh/.config/zsh/ui/20-nmap.zsh
-# ======================
+# ~/.config/zsh/ui/20-nmap.zsh
+# ===============================
 
 nscan() {
   local choice host
