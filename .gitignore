@@ -65,3 +65,8 @@ Thumbs.db
 
 # zsh runtime history
 .local/state/
+
+# ========================
+# Embedded git repos (plugins)
+# ========================
+zsh/.config/zsh/plugins/manual/interactive-cd/
