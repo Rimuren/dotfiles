@@ -89,3 +89,9 @@ mpd/sticker.sql
 # ========================
 wezterm_old/
 wezterm/.stow-local-ignore
+
+
+# ========================
+# Clone from github
+# ========================
+/github

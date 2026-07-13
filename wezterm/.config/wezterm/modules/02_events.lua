@@ -3,7 +3,7 @@
 local wezterm = require("wezterm")
 local colors = require("utils.constants").COLORS
 
-return function(config)
+return function(_config)
     wezterm.on("format-tab-title", function(tab)
         local pane = tab.active_pane
         local title = pane.title or ""
@@ -21,7 +21,7 @@ return function(config)
             window:set_left_status(wezterm.format({
                 { Background = { Color = colors.BLUE } },
                 { Foreground = { Color = colors.BLACK } },
-                { Text = " 🦢 " },
+                { Text = "  " },
             }))
         else
             window:set_left_status("")
@@ -43,12 +43,12 @@ return function(config)
         }))
     end)
 
+    -- gui-startup: focus window on launch (no-op if focus() unavailable)
     wezterm.on("gui-startup", function(cmd)
-        local _, _, win = wezterm.mux.spawn_window(cmd or {})
-        win:gui_window():focus()
+        local ok, _, _, win = pcall(wezterm.mux.spawn_window, cmd or {})
+        if ok and win then
+            local gw = win:gui_window()
+            if gw and gw.focus then gw:focus() end
+        end
     end)
-
-    wezterm.on("window-close-request", function() wezterm.mux.exit() end)
-    wezterm.on("window-focus-changed", function(w) w:clear_selection_text() end)
-    wezterm.on("pane-focus-changed", function(w) w:clear_selection_text() end)
 end

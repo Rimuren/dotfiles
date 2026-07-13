@@ -1,4 +1,4 @@
-local wezterm = require("wezterm")
+-- wezterm/.config/wezterm/utils/constants.lua
 
 return {
     SUPER_WEZ = "CTRL",

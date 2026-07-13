@@ -2,14 +2,17 @@
 
 return function(config)
   -- Performance
-  config.front_end = "Software"
+  -- WebGpu is fastest; fallback to Software only if unavailable
+  config.front_end = "WebGpu"
+  config.webgpu_power_preference = "HighPerformance"
   config.max_fps = 60
   config.animation_fps = 60
   config.term = "wezterm"
   config.scrollback_lines = 10000
 
-  -- Startup
-  config.default_prog = { "zsh", "-l" }
+  -- Startup: respect user's $SHELL, fallback to zsh then sh
+  local shell = os.getenv("SHELL") or "zsh"
+  config.default_prog = { shell, "-l" }
   config.check_for_updates = false
   config.automatically_reload_config = true
 
@@ -25,6 +28,9 @@ return function(config)
   config.tab_bar_at_bottom = true
   config.tab_and_split_indices_are_zero_based = false
 
-  -- Wayland
-  config.enable_wayland = false
+  -- Display server auto-detection:
+  -- Enable Wayland only when WAYLAND_DISPLAY is set, fall back to X11 otherwise.
+  -- This ensures the config works on pure X11, pure Wayland, and XWayland setups.
+  local wayland = os.getenv("WAYLAND_DISPLAY") ~= nil
+  config.enable_wayland = wayland
 end

@@ -4,19 +4,30 @@ local wezterm = require("wezterm")
 
 local SUPER_REV = "ALT|CTRL"
 local bg_dir = os.getenv("HOME") .. "/.config/wezterm/backgrounds"
-local images = wezterm.glob(bg_dir .. "/*.{jpg,jpeg,png,gif}")
 local current, show_image = 1, true
+local image_hsb = { brightness = 0.3, hue = 1.0, saturation = 1.0 }
 
-local image_hsb = {
-    brightness = 0.3,
-    hue = 1.0,
-    saturation = 1.0,
-}
+-- Images are loaded lazily on first use to avoid yield-across-C-call errors
+local images = nil
+
+local function load_images()
+    if images == nil then
+        images = wezterm.glob(bg_dir .. "/*.{jpg,jpeg,png,gif}")
+    end
+    return images
+end
+
+local function refresh_images()
+    images = wezterm.glob(bg_dir .. "/*.{jpg,jpeg,png,gif}")
+    if current > #images then current = math.max(1, #images) end
+    return images
+end
 
 local function set_background(win)
-    if show_image and #images > 0 then
+    local imgs = load_images()
+    if show_image and #imgs > 0 then
         win:set_config_overrides({
-            window_background_image = images[current],
+            window_background_image = imgs[current],
             window_background_image_hsb = image_hsb,
             window_background_opacity = 1.0,
         })
@@ -29,61 +40,38 @@ local function set_background(win)
 end
 
 local function update_image(win, mode)
-    if #images == 0 then return false end
-
+    local imgs = load_images()
+    if #imgs == 0 then return end
     show_image = true
-    local old = current
-
     if mode == "prev" then
-        current = current == 1 and #images or current - 1
-    else -- next
-        current = current == #images and 1 or current + 1
+        current = current == 1 and #imgs or current - 1
+    else
+        current = current == #imgs and 1 or current + 1
     end
-
-    if old ~= current then
-        set_background(win)
-    end
-    return true
+    set_background(win)
 end
 
 return function(config)
-    -- Previous/Next
-    local actions = {
-        { key = "1", mode = "prev" },
-        { key = "2", mode = "next" },
-    }
-
-    for _, a in ipairs(actions) do
-        table.insert(config.keys, {
-            key = a.key,
-            mods = SUPER_REV,
-            action = wezterm.action_callback(function(win)
-                update_image(win, a.mode)
-            end),
-        })
-    end
-    -- Toggle On/Off
-    table.insert(config.keys, {
-        key = "3",
-        mods = SUPER_REV,
-        action = wezterm.action_callback(function(win)
+    local bindings = {
+        { key = "1", mods = SUPER_REV, action = wezterm.action_callback(function(win) update_image(win, "prev") end) },
+        { key = "2", mods = SUPER_REV, action = wezterm.action_callback(function(win) update_image(win, "next") end) },
+        { key = "3", mods = SUPER_REV, action = wezterm.action_callback(function(win)
             show_image = not show_image
             set_background(win)
-        end),
-    })
-    -- Brightness cycle
-    table.insert(config.keys, {
-        key = "4",
-        mods = SUPER_REV,
-        action = wezterm.action_callback(function(win)
-            if #images == 0 or not show_image then return end
-
+        end) },
+        { key = "4", mods = SUPER_REV, action = wezterm.action_callback(function(win)
+            local imgs = load_images()
+            if #imgs == 0 or not show_image then return end
             image_hsb.brightness = image_hsb.brightness + 0.2
-            if image_hsb.brightness > 1.0 then
-                image_hsb.brightness = 0.2
-            end
-
+            if image_hsb.brightness > 1.0 then image_hsb.brightness = 0.2 end
             set_background(win)
-        end),
-    })
+        end) },
+        { key = "5", mods = SUPER_REV, action = wezterm.action_callback(function(win)
+            refresh_images()
+            set_background(win)
+        end) },
+    }
+    for _, b in ipairs(bindings) do
+        table.insert(config.keys, b)
+    end
 end

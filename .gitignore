@@ -70,3 +70,13 @@ Thumbs.db
 # Embedded git repos (plugins)
 # ========================
 zsh/.config/zsh/plugins/manual/interactive-cd/
+
+
+
+# ========================
+# Cloned from github
+# ========================
+~/dotfiles/github/
+~/projects/github/
+.config/something/github/
+foo/bar/github/
