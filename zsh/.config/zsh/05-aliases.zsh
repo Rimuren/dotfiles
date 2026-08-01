@@ -31,3 +31,7 @@ alias mpause='mpc pause'
 alias mplay='mpc play'
 
 alias Sybau='sudo pacman -Syu'
+
+alias orphan='pacman -Qdt'
+alias orphanq='pacman -Qdtq'
+alias rmorphan='sudo pacman -Rns $(pacman -Qdtq)'

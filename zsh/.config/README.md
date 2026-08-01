@@ -28,8 +28,16 @@ zsh/
     ├── 40-init.zsh         # mise, starship, atuin init
     ├── 41-keybind.zsh      # ZLE keybindings
     ├── 50-startup.zsh      # fastfetch on interactive shell
+    ├── functions/
+    │   └── stow-all.zsh    # stow helper function
     ├── helpers/
     │   └── 10-fzf.zsh      # fzfui() wrapper
+    ├── ui/                 # interactive CLI tools
+    │   ├── 10-bluetooth.zsh
+    │   ├── 15-finder.zsh
+    │   ├── 16-cleaner.zsh
+    │   ├── 20-nmap.zsh
+    │   └── 25-miseui.zsh
     └── plugins/
         └── manual/         # vendored plugins
 ```
@@ -62,45 +70,37 @@ This approach makes the config:
 
 ---
 
-# 🔧 Helpers
+# 🔧 Helpers & Functions
 
-Helper functions are stored in:
+Helper functions are stored in `helpers/`, reusable utilities in `functions/`.
 
-```
-helpers/
-```
-
-Example:
-
-```
-helpers/10-fzf.zsh
-```
+### helpers/10-fzf.zsh
 
 Provides a reusable **fzf UI wrapper** used across the config.
 
 Example usage:
 
-```
+```bash
 fzfui --prompt="Select > "
 ```
+
+### functions/stow-all.zsh
+
+Batch stow management for dotfiles packages.
 
 ---
 
 # 🖥️ CLI Tools
 
-Interactive terminal tools live in:
-
-```
-ui/
-```
+Interactive terminal tools live in `ui/`.
 
 Included tools:
 
-### bluetooth
+### bluetooth (blue)
 
-Interactive Bluetooth manager using:
+Interactive Bluetooth manager:
 
-```
+```bash
 blue
 ```
 <details>
@@ -110,11 +110,11 @@ blue
 
 </details>
 
-### finder
+### finder (ff)
 
-File finder with preview using:
+File finder with preview:
 
-```
+```bash
 ff
 ```
 <details>
@@ -131,11 +131,26 @@ Uses:
 * chafa
 * eza
 
-### nmap helper
+### cleaner
+
+Interactive file/cache cleaner:
+
+```bash
+cleaner
+```
+
+<details>
+<summary>Preview cleaner</summary>
+
+![cleaner preview](../../asset/screenshot/zsh/cleaner.png)
+
+</details>
+
+### nmap helper (nscan)
 
 Interactive network scanner:
 
-```
+```bash
 nscan
 ```
 <details>
@@ -145,18 +160,15 @@ nscan
 
 </details>
 
-### mise runtime manager
+### mise runtime manager (miseui)
 
 Interactive runtime manager UI:
 
-```
+```bash
 miseui
 ```
 
-about mise : 
-```bash
-https://mise.jdx.dev/getting-started.html
-```
+About mise: https://mise.jdx.dev/getting-started.html
 <details>
 <summary>Preview miseui</summary>
 

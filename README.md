@@ -14,10 +14,11 @@ dotfiles/
 ├── atuin/           -> ~/.config/atuin/
 ├── cava/            -> ~/.config/cava/
 ├── fastfetch/       -> ~/.config/fastfetch/
+├── fonts/           -> ~/.local/share/fonts/  (Maple Mono NF/TTF)
 ├── mpd/             -> ~/.config/mpd/
 ├── mpDris2/         -> ~/.config/mpDris2/  (systemd user service)
 ├── rmpc/            -> ~/.config/rmpc/
-├── scripts/         -> ~/.local/bin/  (wallctl, stow-all)
+├── scripts/         -> ~/.config/scripts/  (wallctl, etc)
 ├── starship/        -> ~/.config/starship.toml
 ├── superfile/       -> ~/.config/superfile/
 ├── wezterm/         -> ~/.config/wezterm/
@@ -40,9 +41,12 @@ dotfiles/
 ### Audio (optional)
 - mpd, mpc, rmpc, cava
 
+### Fonts
+- Maple Mono NF (included via stow)
+- Maple Mono TTF (fallback)
+
 ### Other
 - superfile, mise, bluetoothctl
-- Nerd Fonts (Mononoki / CaskaydiaCove recommended)
 
 ---
 
@@ -57,7 +61,8 @@ sudo apt install stow git
 
 git clone https://github.com/rimuren/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow-all          # stow semua package dari .stow-packages
+stow bash zsh atuin wezterm fastfetch starship mpd mpDris2 rmpc cava scripts fonts
+fc-cache -fv      # refresh font cache
 ```
 
 Or selectively:
@@ -74,13 +79,6 @@ stow <pkg>             # apply
 stow -D <pkg>          # remove
 stow -R <pkg>          # re-apply
 stow --simulate <pkg>  # dry run
-
-stow-all               # apply all from .stow-packages
-stow-all --dry-run     # preview
-stow-all --remove      # remove all
-```
-
-To enable/disable a package from `stow-all`, edit `.stow-packages` and comment/uncomment the line.
 
 ---
 

@@ -15,6 +15,7 @@ local modules = {
     "modules.03_keys",     -- Keybindings + key tables + disabled defaults
     "modules.05_mouse",    -- Mouse bindings
     "modules.06_backdrops", -- Background switcher
+    "modules.07_cheatsheet", -- Cheat sheet overlay (CTRL+ALT+?)
 }
 
 for _, module_name in ipairs(modules) do

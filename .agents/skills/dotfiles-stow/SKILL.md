@@ -30,7 +30,7 @@ dotfiles/
 ├── rmpc/
 │   └── .config/rmpc/
 ├── scripts/
-│   └── .local/bin/               (wallctl, etc)
+│   └── .config/scripts/          (wallctl, etc)
 ├── starship/
 │   └── .config/starship.toml
 ├── superfile/
@@ -41,25 +41,24 @@ dotfiles/
 │       └── utils/                (constants)
 └── zsh/
     ├── .zshrc
-    └── .config/zsh/              (10-env, 20-path, 30-aliases, 40-prompt, 41-keybind, 50-tools, 60-completions, ...)
+    └── .config/zsh/              (00-env, 01-options, 02-history, 03-completion, 04-plugins, 05-aliases, 40-init, 41-keybind, 50-startup, functions/, helpers/, ui/)
 ```
 
 ## Packages
 
-| Folder     | Target                         |
-|------------|--------------------------------|
-| `bash`     | `~/.bashrc`, `~/.config/bash/` |
-| `zsh`      | `~/.zshrc`, `~/.config/zsh/`   |
-| `atuin`    | `~/.config/atuin/`             |
-| `wezterm`  | `~/.config/wezterm/`           |
-| `fastfetch`| `~/.config/fastfetch/`         |
-| `starship` | `~/.config/starship.toml`      |
-| `superfile`| `~/.config/superfile/`         |
-| `mpd`      | `~/.config/mpd/`               |
-| `mpDris2`  | `~/.config/mpDris2/`           |
-| `rmpc`     | `~/.config/rmpc/`              |
-| `cava`     | `~/.config/cava/`              |
-| `scripts`  | `~/.local/bin/`                |
+| Folder      | Target                         |
+| ----------- | ------------------------------ |
+| `bash`      | `~/.bashrc`, `~/.config/bash/` |
+| `zsh`       | `~/.zshrc`, `~/.config/zsh/`   |
+| `atuin`     | `~/.config/atuin/`             |
+| `wezterm`   | `~/.config/wezterm/`           |
+| `fastfetch` | `~/.config/fastfetch/`         |
+| `starship`  | `~/.config/starship.toml`      |
+| `mpd`       | `~/.config/mpd/`               |
+| `mpDris2`   | `~/.config/mpDris2/`           |
+| `rmpc`      | `~/.config/rmpc/`              |
+| `cava`      | `~/.config/cava/`              |
+| `scripts`   | `~/.config/scripts/`           |
 
 ## Commands
 
@@ -71,8 +70,9 @@ stow --simulate <pkg>  # dry run
 ```
 
 Apply all:
+
 ```bash
-stow bash zsh atuin wezterm fastfetch starship superfile mpd mpDris2 rmpc cava scripts
+stow bash zsh atuin wezterm fastfetch starship mpd mpDris2 rmpc cava scripts
 ```
 
 ## New machine setup
@@ -86,7 +86,24 @@ sudo apt install stow git
 
 git clone https://github.com/rimuren/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow bash zsh atuin wezterm fastfetch starship superfile mpd mpDris2 rmpc cava scripts
+stow bash zsh atuin wezterm fastfetch starship mpd mpDris2 rmpc cava scripts
+
+# Buat folder MPD yang dibutuhkan
+mkdir -p ~/.config/mpd/component ~/.config/mpd/playlists
+
+# Aktifkan service
+systemctl --user enable --now mpd
+systemctl --user enable --now mpDris2
+
+# Clone ZSH plugins manual
+mkdir -p ~/.config/zsh/plugins/manual
+cd ~/.config/zsh/plugins/manual
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting
+git clone https://github.com/Aloxaf/fzf-tab
+git clone https://github.com/rupa/z
+git clone https://github.com/hlissner/zsh-autopair
+git clone https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-completions
 ```
 
 ## Add a new package

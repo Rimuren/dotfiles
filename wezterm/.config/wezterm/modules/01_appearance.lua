@@ -18,16 +18,11 @@ return function(config)
 
   config.window_padding = { left = 5, right = 5, top = 7, bottom = 7 }
 
-  -- Primary font with broadly-available fallbacks:
-  -- Mononoki (preferred) -> JetBrainsMono (Nerd) -> DejaVu (ships with most distros)
-  -- -> Liberation (RHEL/Fedora/Debian/Arch) -> Noto emoji fallback
   config.font = wezterm.font_with_fallback({
+    "Maple Mono NF",
     "Mononoki Nerd Font",
     "JetBrainsMono Nerd Font",
-    "DejaVu Sans Mono",
-    "Liberation Mono",
-    "Noto Color Emoji",
   })
-
-  config.font_size = 11
+  config.warn_about_missing_glyphs = false
+  config.font_size = 12.5
 end

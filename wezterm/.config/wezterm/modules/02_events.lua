@@ -16,8 +16,16 @@ return function(_config)
         return { { Text = " " .. title .. " " } }
     end)
 
+    -- Cache state per window agar tidak re-render tiap frame
+    local last_left = {}
+    local last_right = {}
+
     wezterm.on("update-status", function(window)
-        if window:leader_is_active() then
+        local id = window:window_id()
+        local leader = window:leader_is_active()
+        if last_left[id] == leader then return end
+        last_left[id] = leader
+        if leader then
             window:set_left_status(wezterm.format({
                 { Background = { Color = colors.BLUE } },
                 { Foreground = { Color = colors.BLACK } },
@@ -29,12 +37,14 @@ return function(_config)
     end)
 
     wezterm.on("update-right-status", function(window)
-        local mode = window:active_key_table()
-        if not mode then
+        local id = window:window_id()
+        local mode = window:active_key_table() or ""
+        if last_right[id] == mode then return end
+        last_right[id] = mode
+        if mode == "" then
             window:set_right_status("")
             return
         end
-
         local txt = mode == "resize_pane" and " RESIZE: H J K L " or " MODE: " .. mode:upper() .. " "
         window:set_right_status(wezterm.format({
             { Foreground = { Color = colors.BLACK } },

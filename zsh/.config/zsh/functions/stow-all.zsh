@@ -1,9 +1,9 @@
-# stow-all: stow packages listed in ~/dotfiles/.stow-packages
+# stow-all: stow semua package dotfiles
 # usage: stow-all [--dry-run] [--remove]
 function stow-all() {
   local dotfiles="${DOTFILES:-$HOME/dotfiles}"
-  local config="$dotfiles/.stow-packages"
   local flags=()
+  local packages=(bash zsh atuin wezterm fastfetch starship mpd mpDris2 rmpc cava scripts fonts superfile)
 
   for arg in "$@"; do
     case "$arg" in
@@ -12,12 +12,6 @@ function stow-all() {
       *) echo "usage: stow-all [--dry-run] [--remove]"; return 1 ;;
     esac
   done
-
-  [[ ! -f "$config" ]] && { echo "error: $config not found"; return 1; }
-
-  local packages
-  packages=(${(f)"$(grep -vE '^\s*(#|$)' "$config")"})
-  [[ ${#packages} -eq 0 ]] && { echo "no packages listed in $config"; return 0; }
 
   echo "action:   ${flags[*]:-apply}"
   echo "packages: ${packages[*]}"
@@ -29,5 +23,6 @@ function stow-all() {
     stow "${flags[@]}" "$pkg"
   done
 
+  [[ -z "${flags[*]/*-D*/}" ]] || fc-cache -fv
   echo "done."
 }
